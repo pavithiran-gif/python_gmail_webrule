@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Processing</title>
+</head>
+<body>
+    <h1>Email Processing</h1>
+    <form action="/process" method="post">
+        <h2>Rules</h2>
+        <div id="rules-container">
+            <div class="rule">
+                <label for="field1">Field:</label>
+                <select name="field1" id="field1">
+                    <option value="From">From</option>
+                    <option value="Subject">Subject</option>
+                    <option value="Message">Message</option>
+                    <option value="Received Date/Time">Received Date/Time</option>
+                </select>
+                <label for="predicate1">Predicate:</label>
+                <select name="predicate1" id="predicate1">
+                    <option value="Contains">Contains</option>
+                    <option value="Does not Contain">Does not Contain</option>
+                    <option value="Equals">Equals</option>
+                    <option value="Does not equal">Does not equal</option>
+                </select>
+                <label for="value1">Value:</label>
+                <input type="text" name="value1" id="value1">
+            </div>
+            <!-- Add more rule divs dynamically as needed -->
+        </div>
+
+        <h2>Predicate</h2>
+        <label for="predicate">Select Predicate:</label>
+        <select name="predicate" id="predicate">
+            <option value="All">All</option>
+            <option value="Any">Any</option>
+        </select>
+
+        <h2>Actions</h2>
+        <div id="actions-container">
+            <div class="action">
+                <label for="action1">Action:</label>
+                <select name="action1" id="action1">
+                    <option value="Mark as read">Mark as read</option>
+                    <option value="Mark as unread">Mark as unread</option>
+                    <option value="Move message">Move message</option>
+                </select>
+                <input type="text" name="folder1" placeholder="Folder name" class="folder-input">
+            </div>
+            <!-- Add more action divs dynamically as needed -->
+        </div>
+
+        <input type="submit" value="Process">
+    </form>
+
+    <script>
+        // JavaScript code to dynamically add more rule and action divs
+        const rulesContainer = document.getElementById('rules-container');
+        (function() {
+    const actionsContainer = document.getElementById('actions-container');
+
+    actionsContainer.addEventListener('change', (event) => {
+        if (event.target.name.startsWith('action')) {
+            const folderInput = event.target.nextElementSibling;
+            if (event.target.value === 'Move message') {
+                folderInput.style.display = 'inline';
+            } else {
+                folderInput.style.display = 'none';
+            }
+        }
+    });
+})();
+
+        const addRuleButton = document.getElementById('add-rule-btn');
+        const addActionButton = document.getElementById('add-action-btn');
+
+        let ruleCount = 1;
+        let actionCount = 1;
+
+        addRuleButton.addEventListener('click', () => {
+            const ruleDiv = createRuleDiv(ruleCount);
+            rulesContainer.appendChild(ruleDiv);
+            ruleCount++;
+        });
+
+        addActionButton.addEventListener('click', () => {
+            const actionDiv = createActionDiv(actionCount);
+            actionsContainer.appendChild(actionDiv);
+            actionCount++;
+        });
+
+        function createRuleDiv(ruleIndex) {
+            const ruleDiv = document.createElement('div');
+            ruleDiv.className = 'rule';
+
+            const fieldLabel = document.createElement('label');
+            fieldLabel.textContent = 'Field:';
+            const fieldSelect = createFieldSelect(ruleIndex);
+            ruleDiv.appendChild(fieldLabel);
+            ruleDiv.appendChild(fieldSelect);
+
+            const predicateLabel = document.createElement('label');
+            predicateLabel.textContent = 'Predicate:';
+            const predicateSelect = createPredicateSelect(ruleIndex);
+            ruleDiv.appendChild(predicateLabel);
+            ruleDiv.appendChild(predicateSelect);
+
+            const valueLabel = document.createElement('label');
+            valueLabel.textContent = 'Value:';
+            const valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.name = `value${ruleIndex}`;
+            valueInput.id = `value${ruleIndex}`;
+            ruleDiv.appendChild(valueLabel);
+            ruleDiv.appendChild(valueInput);
+
+            return ruleDiv;
+        }
+
+        function createFieldSelect(ruleIndex) {
+            const fieldSelect = document.createElement('select');
+            fieldSelect.name = `field${ruleIndex}`;
+            fieldSelect.id = `field${ruleIndex}`;
+
+            const fields = ['From', 'Subject', 'Message', 'Received Date/Time'];
+            fields.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field;
+                option.text = field;
+                fieldSelect.appendChild(option);
+            });
+
+            return fieldSelect;
+        }
+
+        function createPredicateSelect(ruleIndex) {
+            const predicateSelect = document.createElement('select');
+            predicateSelect.name = `predicate${ruleIndex}`;
+            predicateSelect.id = `predicate${ruleIndex}`;
+
+            const predicates = ['Contains', 'Does not Contain', 'Equals', 'Does not equal'];
+            predicates.forEach(predicate => {
+                const option = document.createElement('option');
+                option.value = predicate;
+                option.text = predicate;
+                predicateSelect.appendChild(option);
+            });
+
+            return predicateSelect;
+        }
+
+        // JavaScript code to handle dynamic folder input for "Move message" action
+        const actionsContainer = document.getElementById('actions-container');
+
+        actionsContainer.addEventListener('change', (event) => {
+            if (event.target.name.startsWith('action')) {
+                const folderInput = event.target.nextElementSibling;
+                if (event.target.value === 'Move message') {
+                    folderInput.style.display = 'inline';
+                } else {
+                    folderInput.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

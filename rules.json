@@ -1,0 +1,40 @@
+[
+    {
+      "predicate": "all",
+      "conditions": [
+        {
+          "fieldName": "From",
+          "predicate": "contains",
+          "value": "example@gmail.com"
+        },
+        {
+          "fieldName": "Subject",
+          "predicate": "contains",
+          "value": "urgent"
+        }
+      ],
+      "actions": [
+        "mark as read",
+        "move message:Important"
+      ]
+    },
+    {
+      "predicate": "any",
+      "conditions": [
+        {
+          "fieldName": "Subject",
+          "predicate": "contains",
+          "value": "newsletter"
+        },
+        {
+          "fieldName": "Message",
+          "predicate": "does not contain",
+          "value": "unsubscribe"
+        }
+      ],
+      "actions": [
+        "mark as read"
+      ]
+    }
+  ]
+  
